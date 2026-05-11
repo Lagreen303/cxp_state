@@ -1,0 +1,12 @@
+fold_level_n9	mean_pr_auc	pearson_r=0.5541	spearman_rho=0.5378	p=0.1353
+fold_level_n9	mean_pearson_delta	pearson_r=0.8229	spearman_rho=0.6807	p=0.04357
+fold_level_n9	mean_roc_auc	pearson_r=0.8571	spearman_rho=0.9160	p=0.0005206
+fold_level_n9	mean_de_spearman_sig	pearson_r=0.7020	spearman_rho=0.6135	p=0.07892
+perturbation_level_n90	mean_pr_auc	pearson_r=0.2405	spearman_rho=0.1822	p=0.08558
+perturbation_level_n90	mean_pearson_delta	pearson_r=0.3766	spearman_rho=0.3160	p=0.002416
+perturbation_level_n90	mean_roc_auc	pearson_r=0.4113	spearman_rho=0.3966	p=0.0001091
+perturbation_level_n90	mean_de_spearman_sig	pearson_r=0.7020	spearman_rho=0.6135	p=1.29e-10
+perturbation_level_vs_atlas	mean_pr_auc	spearman_rho=0.3434	p=0.0009224
+perturbation_level_vs_atlas	mean_pearson_delta	spearman_rho=0.0799	p=0.4543
+perturbation_level_vs_atlas	mean_roc_auc	spearman_rho=0.1433	p=0.1778
+perturbation_level_vs_atlas	mean_de_spearman_sig	spearman_rho=0.1438	p=0.1764

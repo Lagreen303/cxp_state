@@ -1,0 +1,75 @@
+[datasets]
+cytokine = "/iridisfs/ddnb/Luke/scFMs/state/experiments/cytokine_validation_zeroshot_2026_04_01/emb_zeroshot/embeddings/atlas/cytokine_atlas_emb_full.h5ad"
+
+[training]
+cytokine = "train"
+
+[zeroshot]
+
+[fewshot."cytokine.B Naive"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.CD14 Mono"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.CD16 Mono"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.CD4 Memory"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.CD4 Naive"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.CD8 Memory"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.CD8 Naive"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.HSPC"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.ILC"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.MAIT"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.NK"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.NK CD56bright"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.NKT"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.Pl asmablast"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.Treg"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.cDC"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+
+[fewshot."cytokine.pDC"]
+val = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]
+test = [ "IL-32-beta", "Leptin", "TL1A", "HGF", "TWEAK", "IL-17F", "TSLP", "IL-10", "LIGHT", "IFN-epsilon",]

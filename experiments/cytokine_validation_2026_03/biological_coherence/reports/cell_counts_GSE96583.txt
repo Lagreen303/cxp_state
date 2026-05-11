@@ -1,0 +1,38 @@
+=== GSE96583 cell count report ===
+Source: 28893 cells × 15533 genes
+
+--- By cell type ---
+  B Naive: 659
+  CD14 Mono: 4,433
+  CD16 Mono: 635
+  CD4 Memory: 10,990
+  CD4 Naive: 4,914
+  CD8 Memory: 3,539
+  HSPC: 121
+  NK: 3,134
+  Plasmablast: 347
+  cDC: 121
+
+  Total: 28,893
+
+--- By condition (cytokine/treatment) ---
+  IFN-beta: 14,357
+  control: 14,536
+
+  Total: 28,893
+
+--- n cells per cell type × condition ---
+condition    IFN-beta  control
+cell_type                     
+B Naive           288      371
+CD14 Mono          17     4416
+CD16 Mono         629        6
+CD4 Memory       5494     5496
+CD4 Naive        2506     2408
+CD8 Memory       3522       17
+HSPC               69       52
+NK               1565     1569
+Plasmablast       190      157
+cDC                77       44
+
+Total: 28,893

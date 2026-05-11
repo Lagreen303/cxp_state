@@ -1,0 +1,75 @@
+[datasets]
+cytokine = "/iridisfs/ddnb/Luke/scFMs/state/experiments/cytokine_validation_zeroshot_2026_04_01/emb_zeroshot/embeddings/atlas/cytokine_atlas_emb_full.h5ad"
+
+[training]
+cytokine = "train"
+
+[zeroshot]
+
+[fewshot."cytokine.B Naive"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.CD14 Mono"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.CD16 Mono"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.CD4 Memory"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.CD4 Naive"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.CD8 Memory"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.CD8 Naive"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.HSPC"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.ILC"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.MAIT"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.NK"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.NK CD56bright"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.NKT"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.Pl asmablast"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.Treg"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.cDC"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+
+[fewshot."cytokine.pDC"]
+val = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]
+test = [ "4-1BBL", "IL-22", "IFN-gamma", "IFN-lambda1", "TPO", "IFN-omega", "IFN-alpha1", "IL-8", "LIF", "IL-16",]

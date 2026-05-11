@@ -1,0 +1,57 @@
+# Configuration file for full STATE model run pipeline
+# This file contains all arguments needed for steps 01-06
+
+# ============================================================================
+# Step 01: Training Configuration
+# ============================================================================
+training:
+  # SLURM job settings
+  slurm:
+    nodes: 1
+    time: "60:00:00"
+    mem: "150G"
+    partition: "l40"
+    gpus: 2
+    cpus_per_task: 12
+  
+  # Data configuration
+  data:
+    toml_config_path: "/iridisfs/ddnb/Luke/scFMs/state/experiments/replogle_cytokine_experiment/cytokine_replogle_CD14mono.toml"
+    num_workers: 8
+    batch_col: "batch"
+    pert_col: "pert_gene"
+    cell_type_key: "cell_type"
+    control_pert: "control"
+    embed_key: "X_hvg"
+
+  
+  # Training hyperparameters
+  training:
+    max_steps: 110000
+    ckpt_every_n_steps: 10000
+  
+  # Model configuration
+  model: "state_sm"
+  
+  # Weights & Biases configuration
+  wandb:
+    tags: "[cytokine_replogle]"
+    project: "vcc"
+    entity: "arcinstitute"
+  
+  # Output configuration
+  output:
+    output_dir: "/iridisfs/ddnb/Luke/scFMs/state/experiments/replogle_cytokine_experiment"
+    name: "run1_2025_12_30"
+
+# ============================================================================
+# Step 02: Inference Configuration
+# ============================================================================
+inference:
+  templates_dir: /iridisfs/ddnb/Luke/scFMs/state/experiments/cytokine_validation_2026/Onek1k/templates_Onek1k_per_pert
+  predictions_dir: /iridisfs/ddnb/Luke/scFMs/state/experiments/cytokine_validation_2026/Onek1k/predictions_Onek1k_per_pert
+  model_dir: /iridisfs/ddnb/Luke/scFMs/state/experiments/cytokine_validation_2026/run_2026_01_29
+  checkpoint: "final.ckpt"   # or full path; if filename -> model_dir/checkpoints/<checkpoint>
+  pert_col: "pert_gene_test"
+  control_pert: "PBS"    
+  

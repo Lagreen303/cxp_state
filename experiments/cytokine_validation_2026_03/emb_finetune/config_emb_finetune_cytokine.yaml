@@ -1,0 +1,91 @@
+experiment:
+  name: cytokine_atlas_finetune
+  port: 12400
+  num_gpus_per_node: 1
+  num_nodes: 1
+  ddp_timeout: 3600
+  val_check_interval: 1000
+  limit_val_batches: 100
+  num_epochs: 1
+  cumulative_flops_use_backward: true
+  profile:
+    enable_profiler: false
+    profile_steps:
+    - 10
+    - 100
+    max_steps: 110
+  checkpoint:
+    path: /iridisfs/ddnb/Luke/scFMs/state/experiments/cytokine_validation_2026/emb_finetune/checkpoints
+    save_top_k: 2
+    monitor: trainer/train_loss
+    every_n_train_steps: 5000
+  init_from: /iridisfs/scratch/lag1e24/.cache/huggingface/hub/models--arcinstitute--SE-600M/snapshots/93a4bec2ea5d2da1fa74bfb9181ac714dfcb1198/se600m_epoch16.ckpt
+embeddings:
+  current: cytokine_atlas
+  cytokine_atlas:
+    all_embeddings: /iridisfs/ddnb/Luke/scFMs/state/experiments/cytokine_validation_2026/emb_finetune/preprocess_output/all_embeddings_cytokine_atlas.pt
+    ds_emb_mapping: /iridisfs/ddnb/Luke/scFMs/state/experiments/cytokine_validation_2026/emb_finetune/preprocess_output/ds_emb_mapping_cytokine_atlas.torch
+    valid_genes_masks: /iridisfs/ddnb/Luke/scFMs/state/experiments/cytokine_validation_2026/emb_finetune/preprocess_output/valid_genes_masks_cytokine_atlas.torch
+    size: 5120
+    num: 19790
+dataset:
+  current: cytokine_atlas
+  seed: 42
+  num_train_workers: 8
+  num_val_workers: 4
+  pad_length: 2048
+  pad_token_idx: 0
+  cls_token_idx: 3
+  chrom_token_right_idx: 2
+  P: 512
+  'N': 512
+  S: 512
+  num_cells: 10000000
+  cytokine_atlas:
+    ds_type: h5ad
+    train: /iridisfs/ddnb/Luke/scFMs/state/experiments/cytokine_validation_2026/emb_finetune/preprocess_output/train_cytokine_atlas.csv
+    val: /iridisfs/ddnb/Luke/scFMs/state/experiments/cytokine_validation_2026/emb_finetune/preprocess_output/val_cytokine_atlas.csv
+    filter: true
+    num_datasets: 2
+model:
+  batch_size: 32
+  batch_tabular_loss: false
+  counts: true
+  d_hid: 2048
+  dataset_correction: true
+  dropout: 0.1
+  ema: false
+  ema_decay: 0.999
+  ema_update_interval: 1000
+  emsize: 2048
+  name: vci
+  nhead: 16
+  nlayers: 16
+  num_downsample: 1
+  output_dim: 2048
+  rda: true
+  sample_rda: false
+  use_flash_attention: true
+  variable_masking: true
+optimizer:
+  end: 1.0
+  gradient_accumulation_steps: 8
+  max_grad_norm: 0.8
+  max_lr: 1.0e-05
+  reset_lr_on_restart: false
+  start: 0.01
+  weight_decay: 0.01
+  zclip: true
+loss:
+  apply_normalization: false
+  kernel: energy
+  name: tabular
+  uniformity: false
+task:
+  mask: 0.2
+tokenizer:
+  token_dim: 5120
+wandb:
+  enable: true
+  project: vcc
+  entity: arcinstitute

@@ -1,0 +1,106 @@
+# Dataset paths - maps dataset names to their directories
+[datasets]
+cytokine = "/iridisfs/ddnb/Ahmed/data/parse-10M-90cytokines/adata_for_cellflow_datasets_with_embeddings.h5ad"
+
+# Training specifications
+# All cell types in a dataset automatically go into training (excluding zeroshot/fewshot overrides)
+[training]
+cytokine = "train"
+
+# Zeroshot specifications - entire cell types go to val or test
+[zeroshot]
+
+
+# Fewshot specifications - explicit perturbation lists
+[fewshot]
+
+# B Intermediate/Memory
+# [fewshot."cytokine.B Intermediate/Memory"]
+# val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+# test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# B Naive
+[fewshot."cytokine.B Naive"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# CD14 Mono
+[fewshot."cytokine.CD14 Mono"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# CD16 Mono
+[fewshot."cytokine.CD16 Mono"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# CD4 Memory
+[fewshot."cytokine.CD4 Memory"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# CD4 Naive
+[fewshot."cytokine.CD4 Naive"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# CD8 Memory
+[fewshot."cytokine.CD8 Memory"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# CD8 Naive
+[fewshot."cytokine.CD8 Naive"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# HSPC
+[fewshot."cytokine.HSPC"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# ILC
+[fewshot."cytokine.ILC"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# MAIT
+[fewshot."cytokine.MAIT"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# NK
+[fewshot."cytokine.NK"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# NK CD56bright
+[fewshot."cytokine.NK CD56bright"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# NKT
+[fewshot."cytokine.NKT"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# Plasmablast
+[fewshot."cytokine.Pl asmablast"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# Treg
+[fewshot."cytokine.Treg"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# cDC
+[fewshot."cytokine.cDC"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
+# pDC
+[fewshot."cytokine.pDC"]
+val = ["APRIL", "IFN-epsilon", "TL1A", "M-CSF", "TGF-beta1"]
+test = ["HGF", "IL-35", "LT-alpha1-beta2", "FLT3L", "IL-23"]
+
