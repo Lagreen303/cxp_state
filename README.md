@@ -141,6 +141,7 @@ uv run state emb transform --help
 
 **Slurm / shell examples checked into this fork** (paths and partitions are for the original Iridis layout — edit before reuse):
 
+- **`run_emb_transform.sh`** — YAML-driven **`state emb transform`** (repo root; default `emb_transform.yaml`, template **`examples/emb_transform.yaml`**).
 - **`experiments/cytokine_validation_2026_03/emb_finetune/run_emb_finetune_cytokine.sh`** — `state emb preprocess` and `state emb fit` with a YAML config path.
 - **`experiments/cytokine_validation_zeroshot_2026_04_01/emb_zeroshot/run_emb_transform_cytokine.sh`** — runs **`state emb transform`** over the cytokine atlas embedding workflow used in that campaign.
 

@@ -1,0 +1,17 @@
+# Template for run_emb_transform.sh — copy to repo root as emb_transform.yaml
+# and edit paths, or pass your file: sbatch run_emb_transform.sh /path/to/my.yaml
+#
+# Requires: embedding.model_folder, embedding.input, and either embedding.output or embedding.lancedb
+
+embedding:
+  model_folder: "/path/to/model-folder-containing-ckpt"
+  # checkpoint: "/path/to/specific.ckpt"   # optional; else latest *.ckpt in model_folder
+  input: "/path/to/input.h5ad"
+  output: "/path/to/output_with_embeddings.h5ad"   # or set lancedb only (see run_emb_transform.sh header)
+  embed_key: "X_state"
+  # batch_size: 64
+  # protein_embeddings: "/path/to/protein_embeddings.pt"
+  # config: "/path/to/hydra-style-override.yaml"
+  # lancedb: "/path/to/embeddings.lancedb"
+  # lancedb_update: false
+  # lancedb_batch_size: 1000

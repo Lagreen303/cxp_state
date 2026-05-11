@@ -23,6 +23,7 @@ Scripts that embed training or inference (`run_train_state.sh`, `run_insilicoper
 | `02_run_inference_state_config.sh` | SLURm job: reads YAML `inference` block, builds `uv run state tx infer ...`. |
 | `run_insilicoperturbation_state.sh` | Same pattern as `run_train_state.sh` but for the in-silico perturbation pipeline (YAML-driven). |
 | `run_predict_state.sh` | Minimal example: `state tx predict` with fixed paths—template only. |
+| `run_emb_transform.sh` | Reads YAML key **`embedding`** (see `examples/emb_transform.yaml`), runs `uv run state emb transform` (writes `.h5ad` and/or LanceDB). Default file: `emb_transform.yaml`. |
 | `run_python3.sh` | SLURM + Apptainer: runs **host** `python3` inside `/iridisfs/ddnb/Luke/helical_sb` with GPU and filesystem binds—**not** the `state` venv unless you invoke `uv` yourself inside. |
 | `run_python3_cpu.sh` | CPU Apptainer wrapper (no `#SBATCH --gpus`). |
 | `run_python3_scavenger.sh` | Scavenger-partition variant (see file for `#SBATCH` lines). |
