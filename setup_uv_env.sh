@@ -15,7 +15,7 @@ export UV_PROJECT_ENVIRONMENT="${UV_PROJECT_ENVIRONMENT:-$_STATE_ROOT/.venv}"
 
 unset _STATE_ROOT
 
-mkdir -p "$UV_CACHE_DIR" "$UV_PYTHON_INSTALL_DIR" "$UV_TOOL_DIR" "$(dirname "$UV_PROJECT_ENVIRONMENT")" 2>/dev/null || true
+mkdir -p "$UV_CACHE_DIR" "$UV_PYTHON_INSTALL_DIR" "$UV_TOOL_DIR" "$UV_PROJECT_ENVIRONMENT" 2>/dev/null || true
 
 # sanity checks
 echo "UV Cache Directory:"
