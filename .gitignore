@@ -29,13 +29,65 @@ uv/cache/
 uv/pythons/
 uv/tools/
 
-# --- STATE / ML run outputs (can be huge) ---
+# --- experiments/: version control for code & configs only ---
+# Ignore the tree, then allow source-like paths (see README). Data stay ignored by default.
+experiments/**
+!experiments/**/
+!experiments/**/*.py
+!experiments/**/*.sh
+!experiments/**/*.md
+!experiments/**/*.yaml
+!experiments/**/*.yml
+!experiments/**/*.toml
+!experiments/**/*.ipynb
+!experiments/**/*.txt
+# Tabular / image outputs (regenerate from scripts; not pushed)
+experiments/**/*.csv
+experiments/**/*.tsv
+# Explicitly block large / generated artifacts even if extension matched elsewhere
+experiments/**/*.h5ad
+experiments/**/*.h5
+experiments/**/*.loom
+experiments/**/*.zarr
+experiments/**/*.zarr/
+experiments/**/*.ckpt
+experiments/**/*.pt
+experiments/**/*.pth
+experiments/**/*.safetensors
+experiments/**/*.npz
+experiments/**/*.npy
+experiments/**/*.pkl
+experiments/**/*.pickle
+experiments/**/*.hdf5
+experiments/**/checkpoints/
+experiments/**/wandb/
+experiments/**/lightning_logs/
+experiments/**/outputs/
+experiments/**/plots/
+experiments/**/*.png
+experiments/**/*.jpg
+experiments/**/*.jpeg
+experiments/**/*.pdf
+experiments/**/*.svg
+experiments/**/*.gif
+experiments/**/*.mp4
+experiments/**/*.zip
+experiments/**/*.tar
+experiments/**/*.tar.gz
+experiments/**/*.tgz
+experiments/**/*.parquet
+experiments/**/*.feather
+experiments/**/*.mtx
+experiments/**/*.gz
+experiments/**/*.bz2
+experiments/**/*.rds
+
+# --- STATE / ML run outputs at repo root (can be huge) ---
 lightning_logs/
 outputs/
 log/
 wandb/
 wandb_logs/
-experiments/
 cell-eval-outdir/
 analyse_results/
 archive/
@@ -59,7 +111,7 @@ hostfile
 .local/
 .fontconfig/
 
-# --- Misc generated / one-off artifacts ---
+# --- Misc generated / one-off artifacts at repo root ---
 project_gantt_chart*.pdf
 project_gantt_chart*.png
 cv_pred_*_*.out
