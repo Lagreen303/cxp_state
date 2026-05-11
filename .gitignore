@@ -1,14 +1,66 @@
+# --- Editor / OS ---
 .vscode/
-hostfile
+.idea/
+.DS_Store
+
+# --- Python ---
 __pycache__/
-vci_job_*
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# --- Local env & package manager (large / machine-specific) ---
+.venv/
+venv/
+.env
+.env.*
+.python-version
+.python_history
+.python_history*.tmp
+
+# uv: keep lockfile in repo for reproducible installs; cache stays local
+uv/cache/
+uv/pythons/
+uv/tools/
+
+# --- STATE / ML run outputs (can be huge) ---
 lightning_logs/
 outputs/
 log/
-uv.lock
-tmp/
-notebooks/
-*.sif
-*.slurm
-temp
 wandb/
+wandb_logs/
+experiments/
+cell-eval-outdir/
+analyse_results/
+archive/
+tmp/
+temp/
+notebooks/
+
+# --- Slurm / cluster logs ---
+slurm-*.out
+slurm-*.err
+*.slurm
+vci_job_*
+hostfile
+
+# --- Apptainer / images ---
+*.sif
+
+# --- Accidental home-style dirs in repo root (from jobs using -H $PWD) ---
+.cache/
+.config/
+.local/
+.fontconfig/
+
+# --- Misc generated / one-off artifacts ---
+project_gantt_chart*.pdf
+project_gantt_chart*.png
+cv_pred_*_*.out
+cv_pred_*_*.err

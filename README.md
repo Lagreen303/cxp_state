@@ -9,6 +9,10 @@
 - Model evaluation framework: [cell-eval](https://github.com/ArcInstitute/cell-eval)
 - Dataloaders and preprocessing: [cell-load](https://github.com/ArcInstitute/cell-load)
 
+## This fork (HPC / SLURM)
+
+This working copy extends upstream STATE with cluster helpers (`run_train_state.sh`, `run_python3*.sh`, YAML-driven training/inference jobs, etc.). See **[docs/HPC_SLURM_WRAPPERS.md](docs/HPC_SLURM_WRAPPERS.md)** for what each script does and **[RUNNING_MODELS.md](RUNNING_MODELS.md)** for the YAML/TOML workflow. To publish your fork while keeping Arc’s history as `upstream`, rename the default remote and add your GitHub URL (commands are in the wrappers doc).
+
 ## Getting started
 
 - Train an ST model for genetic perturbation prediction using the Replogle-Nadig dataset: [Colab](https://colab.research.google.com/drive/1Ih-KtTEsPqDQnjTh6etVv_f-gRAA86ZN)
