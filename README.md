@@ -73,6 +73,81 @@ PyPI package name remains **`arc-state`** for the upstream line; this fork may c
 
 ---
 
+## Config YAML and the Slurm wrappers
+
+The root Slurm drivers are **not** Hydra configs by themselves: each script expects a **YAML file** (usually the same style as in [RUNNING_MODELS.md](RUNNING_MODELS.md)) that documents your TOML paths, training hyperparameters, and/or inference paths. You maintain **one YAML per logical experiment** (or reuse a template under `experiments/.../configs/`).
+
+**Passing the file**
+
+- Most scripts accept an optional path: `sbatch run_train_state.sh path/to/config.yaml`. If omitted, they default to **`config.yaml` in the repo root** (when run from the submit directory, Slurm sets `SLURM_SUBMIT_DIR` so paths resolve next to the wrapper).
+- Use **absolute paths inside YAML** when jobs start from another working directory, or keep everything relative to the directory you `sbatch` from.
+
+**Which YAML section each wrapper reads**
+
+| Wrapper | YAML section used | Result |
+|--------|---------------------|--------|
+| `run_train_state.sh`, `01_run_train_state_config.sh` | `training` (nested `data`, `training`, `wandb`, `output`, plus top-level `model`, optional `init_from`) | Builds `uv run state tx train ...` Hydra overrides. |
+| `02_run_inference_state_config.sh`, `run_insilicoperturbation_state.sh` | `inference` | Builds `uv run state tx infer ...`. Required keys include `output`, `model_dir`, `checkpoint`, `adata`, `pert_col`; optional `control_pert`. If `checkpoint` is a bare filename, it is resolved under `<model_dir>/checkpoints/`. |
+| `run_cell_eval.sh` (and imputed variant) | Same file must contain parseable **`inference.output`** (predictions `.h5ad`) and **`inference.real`** (reference `.h5ad`), plus `pert_col` and `control_pert` | See below. |
+
+**Before any GPU job**
+
+```bash
+cd /path/to/this/repo
+source setup_uv_env.sh   # project-local uv cache + .venv
+uv sync
+```
+
+Preprocess helpers **`00_preprocess_train.sh`** and **`02a_preprocess_infer.sh`** are **path-hardcoded Slurm examples**, not YAML-driven; copy them and edit `uv run state tx preprocess_*` arguments.
+
+---
+
+## Wrapper scripts (what each main file does)
+
+### Training
+
+- **`run_train_state.sh`** — Primary training driver: sources `setup_uv_env.sh`, loads the given YAML, uses embedded Python to assemble a full **`uv run state tx train`** command (data kwargs, training schedule, `model=...`, optional **`init_from`**, wandb toggles/tags). Optional: `SKIP_STEPS=01` to skip the training step. Heavier and more flexible than `01_...`.
+- **`01_run_train_state_config.sh`** — Shorter Slurm job that parses the same `training` YAML and runs `uv run state tx train` with a smaller fixed set of overrides (good when you do not need `init_from` or extra wandb handling). Usage: `sbatch 01_run_train_state_config.sh [config.yaml]`.
+
+### Inference / in-silico perturbation
+
+- **`run_insilicoperturbation_state.sh`** — Reads **`inference`** from YAML and runs **`state tx infer`** with resolved checkpoint path. Usage: `sbatch run_insilicoperturbation_state.sh [config.yaml]`; optional `SKIP_STEPS=02`.
+- **`02_run_inference_state_config.sh`** — Same overall job (YAML → `state tx infer`) with a separate embedded parser; use whichever you prefer to maintain. Usage: `sbatch 02_run_inference_state_config.sh [config.yaml]`.
+- **`run_predict_state.sh`** — **Template only**: a single hardcoded `uv run state tx predict ...` with fixed `--output-dir` and `--checkpoint`. Duplicate the file or edit in place for your run directory and checkpoint name.
+
+### cell-eval style metrics (after you have prediction + real h5ads)
+
+- **`run_cell_eval.sh`** — Submits a job that **does not train**; it evaluates predictions like STATE’s internal `tx predict` checks using **cell-eval–backed Python** in this repo. **Usage:** `sbatch run_cell_eval.sh /path/to/config_infer_….yaml` (exactly **one** argument). The script naïvely parses the YAML with `awk`: it needs **`inference`** fields **`output:`** (path to **predicted** `.h5ad`, quoted), **`real:`** (path to **real / observed** `.h5ad`, quoted), **`pert_col`**, and **`control_pert`**. It derives a sibling folder under the run directory, e.g. `results_eval_<prediction_basename>_genes_all`, and runs  
+  `uv run … python analyse_results/state_predict_like_metrics.py` with `--profile full` and `cell_type` as the cell-type column. **Prepare your inference YAML** so those keys match the files produced by `state tx infer` / `predict`.
+
+- **`run_cell_eval_imputed.sh`** — Same CLI contract (`CONFIG_YAML` as sole argument); calls `state_predict_like_metrics_no_imputed.py` so metrics exclude imputed genes (`--imputed-flag`, defaulting to `is_imputed`).
+
+- **`run_insilicoperturbation_per_pert.sh`** — Batch ISP driver: YAML supplies **`templates_dir`** and **`predictions_dir`** (directory of template `.h5ad` files → many outputs).
+
+### Apptainer-backed Python (not `config.yaml`-driven)
+
+These run **`python3 "$@"`** inside a **site-specific** Apptainer image and bind mounts (`run_python3.sh` is GPU-oriented; `run_python3_cpu.sh` omits GPU in the header; `run_python3_scavenger.sh` targets scavenger partitions). They do **not** read your STATE YAML; use them for arbitrary Python in the same filesystem environment as your other jobs. Example: `sbatch run_python3.sh your_script.py --flags`.
+
+---
+
+## State embedding (SE) — where the “embedding scripts” are
+
+There is **no** separate `scripts/state_embed_anndata.py` in this repository anymore; embedding is handled by the **upstream CLI** under **`state emb`** (implementation in `src/state/_cli/_emb/`: `preprocess`, `fit`, `transform`, `query`, etc.). Start with:
+
+```bash
+uv run state emb --help
+uv run state emb transform --help
+```
+
+**Slurm / shell examples checked into this fork** (paths and partitions are for the original Iridis layout — edit before reuse):
+
+- **`experiments/cytokine_validation_2026_03/emb_finetune/run_emb_finetune_cytokine.sh`** — `state emb preprocess` and `state emb fit` with a YAML config path.
+- **`experiments/cytokine_validation_zeroshot_2026_04_01/emb_zeroshot/run_emb_transform_cytokine.sh`** — runs **`state emb transform`** over the cytokine atlas embedding workflow used in that campaign.
+
+For notebook-style tutorials, use Arc’s **SE Colab** linked in [Google Colabs](#google-colabs-upstream-quickstarts) below.
+
+---
+
 ## CLI overview (unchanged from upstream)
 
 ```bash
