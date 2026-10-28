@@ -1,0 +1,111 @@
+# Configuration file for full STATE model run pipeline
+# This file contains all arguments needed for steps 01-06
+
+# ============================================================================
+# Step 01: Training Configuration
+# ============================================================================
+training:
+  # SLURM job settings
+  slurm:
+    nodes: 1
+    time: "60:00:00"
+    mem: "150G"
+    partition: "l40"
+    gpus: 2
+    cpus_per_task: 12
+  
+  # Data configuration
+  data:
+    toml_config_path: "/iridisfs/ddnb/Luke/scFMs/state/competition_support_set/starter.toml"
+    num_workers: 8
+    batch_col: "batch_var"
+    pert_col: "target_gene"
+    cell_type_key: "cell_type"
+    control_pert: "non-targeting"
+    perturbation_features_file: "competition_support_set/ESM2_pert_features.pt"
+  
+  # Training hyperparameters
+  training:
+    max_steps: 10
+    ckpt_every_n_steps: 10
+  
+  # Model configuration
+  model: "state_sm"
+  
+  # Weights & Biases configuration
+  wandb:
+    tags: "[first_run]"
+    project: "vcc"
+    entity: "arcinstitute"
+  
+  # Output configuration
+  output:
+    output_dir: "full_run_vcc_data"
+    name: "full_run_vcc_data"
+
+# ============================================================================
+# Step 02: Inference Configuration
+# ============================================================================
+inference:
+  # SLURM job settings
+  slurm:
+    nodes: 1
+    time: "60:00:00"
+    mem: "100G"
+    partition: "l40"
+    gpus: 2
+    cpus_per_task: 12
+  
+  # Inference paths and settings
+  output: "full_run_vcc_data/vcc_prediction.h5ad"
+  model_dir: "full_run_vcc_data/full_run_vcc_data"
+  checkpoint: "/iridisfs/ddnb/Luke/scFMs/state/full_run_vcc_data/full_run_vcc_data/checkpoints/last.ckpt"
+  adata: "competition_support_set/competition_val_template.h5ad"
+  pert_col: "target_gene"
+
+# ============================================================================
+# Step 03: Cell-eval Configuration
+# ============================================================================
+celleval:
+  # Input/output paths
+  input_prediction: "full_run_vcc_data/vcc_prediction.h5ad"
+  gene_names_csv: "competition_support_set/gene_names.csv"
+  output_dir: "cell-eval-outdir"
+
+# ============================================================================
+# Step 04: Visualization Configuration
+# ============================================================================
+visualization:
+  run_dir: "replogle_mine"
+  pred: "full_run_vcc_data/vcc_prediction.h5ad"
+  truth: "competition_support_set/competition_val_template.h5ad"
+  starter_toml: "starter.toml"
+  dataset_key: "replogle_h1"  # Key from starter.toml [datasets] section
+  split: null  # "val" or "test" or null
+  pert_col: "target_gene"
+  celltype_col: "cell_type"
+  control_label: "non-targeting"
+  outdir: "full_run_vcc_data/visualisation"
+
+# ============================================================================
+# Step 05: VCC Metrics Configuration
+# ============================================================================
+vcc_metrics:
+  true: "competition_support_set/competition_val_template.h5ad"
+  pred: "full_run_vcc_data/vcc_prediction.h5ad"
+  outdir: "full_run_vcc_data/results_eval"
+  truth_fallback_col: "target_gene"
+  control_label: "non-targeting"
+  threads: 12
+
+# ============================================================================
+# Step 06: Plot Cell Eval Configuration
+# ============================================================================
+plot_cell_eval:
+  tmp_dir: "/iridisfs/ddnb/Luke/scFMs/state/cell-eval-outdir/"
+  outdir: "full_run_vcc_data/results_eval"
+  results_fn: "results.csv"
+  agg_fn: "agg_results.csv"
+  real_de_fn: "real_de.csv"
+  pred_de_fn: "pred_de.csv"
+

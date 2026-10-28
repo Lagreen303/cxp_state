@@ -197,11 +197,19 @@ class StateTransitionPerturbationModel(PerturbationModel):
             )
             self.batch_dim = batch_dim
 
-        # if the model is outputting to counts space, apply relu
-        # otherwise its in embedding space and we don't want to
+        # CxP fork: rectify only when THIS module's own output is counts.
+        # `self.gene_decoder is None` is not evidence of that -- with a signed
+        # embedding target (e.g. embed_key="X_cxp", gene_decoder_bool=false)
+        # the prediction is a signed latent, and clamping it destroys the
+        # negative half of the target distribution and kills the gradient there.
+        # output_activation: "auto" (default) | "relu" | "none"
         is_gene_space = kwargs["embed_key"] == "X_hvg" or kwargs["embed_key"] is None
-        if is_gene_space or self.gene_decoder is None:
-            self.relu = torch.nn.ReLU()
+        _out_act = kwargs.get("output_activation", "auto")
+        if _out_act == "auto":
+            _use_relu = is_gene_space
+        else:
+            _use_relu = _out_act == "relu"
+        self.relu = torch.nn.ReLU() if _use_relu else torch.nn.Identity()
 
         self.use_batch_token = kwargs.get("use_batch_token", False)
         self.basal_mapping_strategy = basal_mapping_strategy
@@ -483,12 +491,10 @@ class StateTransitionPerturbationModel(PerturbationModel):
         else:
             out_pred = self.project_out(res_pred)
 
-        # apply relu if specified and we output to HVG space
-        is_gene_space = self.hparams["embed_key"] == "X_hvg" or self.hparams["embed_key"] is None
-        # logger.info(f"DEBUG: is_gene_space: {is_gene_space}")
-        # logger.info(f"DEBUG: self.gene_decoder: {self.gene_decoder}")
-        if is_gene_space or self.gene_decoder is None:
-            out_pred = self.relu(out_pred)
+        # CxP fork: self.relu is nn.Identity() unless this module emits counts.
+        # Applied unconditionally so training, validation, test and predict all
+        # share one definition (every hook routes through this forward).
+        out_pred = self.relu(out_pred)
 
         output = out_pred.reshape(-1, self.output_dim)
 

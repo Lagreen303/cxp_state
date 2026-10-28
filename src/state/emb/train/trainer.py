@@ -111,6 +111,10 @@ def main(cfg):
     model = model.train()
 
     run_name, chk = get_latest_checkpoint(cfg)
+    init_from = getattr(cfg.experiment, "init_from", None)
+    use_init_from = init_from and os.path.exists(init_from)
+    if use_init_from:
+        print(f"Finetuning from pretrained checkpoint: {init_from}")
     checkpoint_callback = ModelCheckpoint(
         every_n_train_steps=cfg.experiment.checkpoint.every_n_train_steps,
         dirpath=os.path.join(cfg.experiment.checkpoint.path, cfg.experiment.name),
@@ -174,7 +178,24 @@ def main(cfg):
         limit_val_batches=cfg.experiment.limit_val_batches,
     )
 
-    if chk:
+    if use_init_from:
+        # Manual load with strict=False: skip dataset_encoder (different num_datasets)
+        ckpt = torch.load(init_from, map_location="cpu", weights_only=False)
+        ckpt_state = ckpt.get("state_dict", ckpt)
+        model_state = {k: v.shape for k, v in model.state_dict().items()}
+        filtered = {}
+        for name, param in ckpt_state.items():
+            if name in model_state:
+                if param.shape == model_state[name]:
+                    filtered[name] = param
+                else:
+                    print(f"Skipping {name}: ckpt={param.shape}, model={model_state[name]}")
+            else:
+                print(f"Skipping {name}: not in model")
+        model.load_state_dict(filtered, strict=False)
+        print(f"******** Loaded pretrained weights from {init_from} (skipped {len(ckpt_state) - len(filtered)} params)")
+        chk = None
+    elif chk:
         print(f"******** Loading chkpoint {run_name} {chk}...")
     else:
         print(f"******** Initialized fresh {run_name}...")

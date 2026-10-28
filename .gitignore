@@ -31,6 +31,11 @@ uv/tools/
 
 # --- experiments/: version control for code & configs only ---
 # Ignore the tree, then allow source-like paths (see README). Data stay ignored by default.
+# Parked cytokine CV trees (large run snapshots); active CxP work lives under experiments/cxp/.
+experiments/cytokine_validation*/
+# Training run directories (config snapshots + lightning); keep templates under experiments/cxp/configs/
+experiments/**/run_*/
+experiments/**/version_*/
 experiments/**
 !experiments/**/
 !experiments/**/*.py
@@ -81,6 +86,18 @@ experiments/**/*.mtx
 experiments/**/*.gz
 experiments/**/*.bz2
 experiments/**/*.rds
+
+# Re-ignore run artefacts (negated extensions above would otherwise track run/config.yaml)
+experiments/**/run_*/
+experiments/**/version_*/
+experiments/**/CollecTRI/
+experiments/**/X_state/
+experiments/**/X_state_gene_decoder/
+experiments/**/emb_finetune_parse/
+experiments/**/h5ad/
+experiments/**/figures/
+experiments/**/metrics_archive/
+experiments/**/logs/
 
 # --- STATE / ML run outputs at repo root (can be huge) ---
 lightning_logs/

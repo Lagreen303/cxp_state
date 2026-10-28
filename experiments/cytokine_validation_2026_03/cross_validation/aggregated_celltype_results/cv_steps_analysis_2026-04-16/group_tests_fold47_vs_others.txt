@@ -1,8 +1,0 @@
-Mann–Whitney U: folds 4 and 7 (global_step 12k and 14k) vs other folds.
-Per held-out cytokine, metric = mean across cell types (same rows as perturbation_fold_metrics.csv).
-
-mean_pr_auc: folds 4&7 mean=0.2085 (n=20) vs others mean=0.2714 (n=70), p=0.0374
-mean_pearson_delta: folds 4&7 mean=0.2606 vs others mean=0.3851, p=0.00062
-
-Caveat: held-out cytokines differ by fold, so this is not a clean causal effect of steps alone;
-low-step folds may also have been assigned an “easier” or “harder” cytokine set by chance.

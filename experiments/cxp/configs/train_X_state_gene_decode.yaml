@@ -1,0 +1,27 @@
+training:
+  data:
+    toml_config_path: "/iridisfs/ddnb/Luke/scFMs/cxp_state/experiments/cxp/tomls/cxp_nested_X_state_finetuned_gene.toml"
+    embed_key: "X_state"
+    output_space: "all"
+    num_workers: 8
+    batch_col: "sample"
+    pert_col: "cytokine"
+    cell_type_key: "cell_type"
+    control_pert: "PBS"
+    perturbation_features_file: /iridisfs/ddnb/Luke/data/parse-10M-90cytokines/esm2_pert_features.pt
+    cell_set_len: 128
+  training:
+    batch_size: 64
+    max_steps: 100000
+    ckpt_every_n_steps: 5000
+    val_freq: 2000
+  model: "state_sm"
+  model_kwargs:
+    gene_decoder_bool: true
+  wandb:
+    tags: "[cxp_nested,gene_decode,X_state]"
+    project: "vcc"
+    entity: "arcinstitute"
+  output:
+    output_dir: "/iridisfs/ddnb/Luke/scFMs/cxp_state/experiments/cxp/gene_decode/X_state"
+    name: "run_cxp_X_state_gene"

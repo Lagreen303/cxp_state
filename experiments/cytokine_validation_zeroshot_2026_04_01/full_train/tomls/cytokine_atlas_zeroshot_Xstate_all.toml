@@ -1,9 +1,0 @@
-[datasets]
-cytokine = "/iridisfs/ddnb/Luke/scFMs/state/experiments/cytokine_validation_zeroshot_2026_04_01/emb_zeroshot/embeddings/atlas/cytokine_atlas_emb_full.h5ad"
-
-[training]
-cytokine = "train"
-
-[zeroshot]
-
-# Intentionally no [fewshot.*] sections: this is FULL-TRAIN (no held-out cytokines).

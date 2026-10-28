@@ -1,4 +1,6 @@
-# STATE — maintained fork (HPC, YAML workflow, experiment tooling)
+# cxp_state — CxP-aware STATE fork (HPC, YAML workflow)
+
+**GitHub:** publish as `cxp_state` (signed `X_cxp` / `X_state` latents; see [docs/CXP_FORK.md](docs/CXP_FORK.md)).
 
 This repository is a **personal fork** of the Arc Institute [**state**](https://github.com/ArcInstitute/state) project: the same `arc-state` Python package (`state` CLI: `emb`, `tx`) lives under `src/`, with **additional** Slurm/Apptainer helpers, YAML-driven training drivers, documentation for this workflow, and **version-controlled analysis / cross-validation (CV) code** under `experiments/`. It is **not** the official Arc Institute distribution; cite Arc’s work when you use their model or code, and keep their license files in any publication fork.
 
@@ -10,12 +12,12 @@ This repository is a **personal fork** of the Arc Institute [**state**](https://
 
 | Area | Location | Purpose |
 |------|-----------|---------|
-| **HPC / Slurm wrappers** | Repo root (`run_train_state.sh`, `run_python3*.sh`, `00_preprocess_train.sh`, `01_run_train_state_config.sh`, `02_run_inference_state_config.sh`, `02a_preprocess_infer.sh`, cell-eval drivers, …) | Submit or debug training, inference, preprocessing, and Apptainer-backed Python on Iridis-style partitions. |
+| **HPC / Slurm wrappers** | `scripts/hpc/` (thin forwards at repo root) | Submit or debug training, inference, preprocessing, and Apptainer-backed Python on Iridis-style partitions. |
 | **Environment** | `setup_uv_env.sh` | Project-local `uv` cache and `.venv` paths (override with env vars if your site uses scratch). |
 | **YAML + TOML workflow** | `RUNNING_MODELS.md`, optional `config.yaml` (local) | Describes how YAML maps to `state tx train` / infer / ISP for this fork’s drivers. |
 | **Wrapper index** | `docs/HPC_SLURM_WRAPPERS.md` | One-page map of each shell script and how to repoint `git` remotes (`upstream` = Arc, `origin` = your GitHub). |
-| **CV & analysis code** | `experiments/**` | Fold generation, aggregation, plotting scripts, Slurm snippets, and **small config** (`.yaml`, `.toml`, `.md`). **No** AnnData, checkpoints, or bulk results are tracked (see below). |
-| **Standalone scripts** | Repo root | `classify_from_embedding.py`, `cluster_IFNy_PBMCs_cluster_h5ad.py`, `download_repogle_data.py` — ad hoc analysis / data helpers (paths are machine-specific; edit before use). |
+| **CxP experiment code** | `experiments/cxp/` | Train/infer/posthoc scripts and configs for CollecTRI / `X_state` arms ([README](experiments/cxp/README.md)). |
+| **Standalone scripts** | `scripts/analysis/` | Ad hoc embedding / clustering helpers (paths are machine-specific; edit before use). |
 
 Upstream-facing install and API details are still valid; this README focuses on **using this tree** on a cluster and **what is safe to push**.
 
@@ -67,7 +69,9 @@ PyPI package name remains **`arc-state`** for the upstream line; this fork may c
 
 | Doc | Use |
 |-----|-----|
-| **[docs/HPC_SLURM_WRAPPERS.md](docs/HPC_SLURM_WRAPPERS.md)** | Which Slurm / Apptainer script to run and how it relates to `uv run state`. |
+| **[docs/CXP_FORK.md](docs/CXP_FORK.md)** | Signed `X_cxp` / `X_state` targets; no ReLU on transition head (see `output_activation`). |
+| **[docs/HPC_SLURM_WRAPPERS.md](docs/HPC_SLURM_WRAPPERS.md)** | Slurm / Apptainer wrappers under `scripts/hpc/`. |
+| **[experiments/cxp/README.md](experiments/cxp/README.md)** | CxP train/infer/posthoc script layout. |
 | **[RUNNING_MODELS.md](RUNNING_MODELS.md)** | YAML + TOML workflow (preprocess → train → infer / ISP). |
 | **`examples/`** | Upstream TOML examples (`fewshot.toml`, `zeroshot.toml`, …). |
 

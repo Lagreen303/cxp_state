@@ -1,6 +1,6 @@
 # HPC / SLURM wrappers (this fork)
 
-These shell scripts sit at the repository root and wrap the upstream [`state` CLI](https://github.com/ArcInstitute/state) for **University of Southampton Iridis** (or similar) SLURM partitions. They are **not** part of the upstream Arc Institute package; treat paths (`#SBATCH` partitions, Apptainer binds, `config.yaml` entries) as templates you must adapt to your cluster account.
+These shell scripts live under **`scripts/hpc/`** (repo root names are one-line forwards). They wrap the upstream [`state` CLI](https://github.com/ArcInstitute/state) for **University of Southampton Iridis** (or similar) SLURM partitions. They are **not** part of the upstream Arc Institute package; treat paths (`#SBATCH` partitions, Apptainer binds, `config.yaml` entries) as templates you must adapt to your cluster account.
 
 ## Environment: `uv` and `setup_uv_env.sh`
 
@@ -15,8 +15,8 @@ Scripts that embed training or inference (`run_train_state.sh`, `run_insilicoper
 
 | Script | Role |
 |--------|------|
-| `setup_uv_env.sh` | Export project-local `uv` paths; **source** before interactive work. |
-| `00_preprocess_train.sh` | SLURM job: example `state tx preprocess_train` with **hardcoded** input/output `.h5ad` paths—copy and edit for your data. |
+| `setup_uv_env.sh` (repo root) | Export project-local `uv` paths; **source** before interactive work. |
+| `scripts/hpc/00_preprocess_train.sh` | SLURM job: example `state tx preprocess_train` with **hardcoded** input/output `.h5ad` paths—copy and edit for your data. |
 | `02a_preprocess_infer.sh` | SLURM job: example `state tx preprocess_infer` for a control template—copy and edit paths. |
 | `01_run_train_state_config.sh` | SLURM job: reads `config.yaml` (or path argument), builds `uv run state tx train ...` overrides via embedded Python, then runs training. Lighter than `run_train_state.sh`. |
 | `run_train_state.sh` | SLURM-oriented driver: sources `setup_uv_env.sh`, resolves `config.yaml`, builds a richer Hydra override set (including optional `init_from`, wandb tags), runs `uv run state tx train`. Supports `SKIP_STEPS=01` to skip training. |
@@ -54,16 +54,14 @@ sbatch 01_run_train_state_config.sh config.yaml
 - **`run_python3*.sh`**: General Python inside a fixed SIF (`helical_sb`). Binds include `/iridisfs/ddnb/Luke`—change for other users or clusters.
 - **`uv run state ...`**: Uses the project’s `.venv` / `uv` resolution per `pyproject.toml`. Prefer this for STATE training, inference, and preprocessing unless you have a containerized stack that mirrors the same versions.
 
-## Pushing this fork to your own GitHub
+## Pushing this fork to GitHub
 
-Upstream lives at `https://github.com/ArcInstitute/state.git`. To publish **your** fork while keeping upstream fetchable:
+Recommended remote name: **`cxp_state`** (this checkout). Upstream Arc repo stays as `upstream`:
 
 ```bash
-cd /path/to/state   # this repo root
-git remote rename origin upstream
-git remote add origin https://github.com/<your-username>/<your-repo>.git
-git fetch upstream
-git push -u origin main
+cd /path/to/cxp_state
+git remote add cxp_state git@github.com:<your-username>/cxp_state.git   # once
+git push -u cxp_state main
 ```
 
-Keep Arc’s `LICENSE` and model-use files intact; your changes (wrappers, docs, code) sit on top of their terms.
+If you still use `origin` → `State-wrapper`, you can push the same branch there or repoint `origin` to `cxp_state`.

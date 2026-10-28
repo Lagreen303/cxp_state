@@ -1,0 +1,21 @@
+# Kang external posthoc after state tx infer (pathway decode / UMAP / cell-eval).
+run_dir: /iridisfs/ddnb/Luke/scFMs/cxp_state/experiments/cxp/CollecTRI/run_cxp_v2_collectri
+eval_dir: /iridisfs/ddnb/Luke/cellxpathway/outputs/kang_state/v2_collectri/posthoc
+eval_label: kang_external_infer
+checkpoint_step: 0
+cellxpathway_root: /iridisfs/ddnb/Luke/cellxpathway
+encode_config: configs/v2/encode_v2_collectri.yaml
+decoder_weight_npy: outputs/v2/v2_collectri/z_cache/decoder_weight.npy
+embed_key: X_cxp
+pert_col: cytokine
+cell_type_key: cell_type
+control_pert: control
+barcode_obs_key: pert_cell_barcode
+infer_real_h5ad: /iridisfs/ddnb/Luke/cellxpathway/outputs/kang_state/v2_collectri/kang_x_cxp_raw.h5ad
+infer_pred_h5ad: /iridisfs/ddnb/Luke/cellxpathway/outputs/kang_state/v2_collectri/kang_x_cxp_simulated.h5ad
+test_h5ad: /iridisfs/ddnb/Luke/cellxpathway/outputs/kang_state/v2_collectri/kang_x_cxp_raw.h5ad
+seed: 42
+max_umap_cells: 80000
+decode_batch_cells: 8192
+exemplar_cell_type: CD14 Mono
+exemplar_perturbation: IFN-beta

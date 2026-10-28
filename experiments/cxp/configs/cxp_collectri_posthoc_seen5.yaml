@@ -1,0 +1,15 @@
+# CollecTRI posthoc on training-seen cytokines (fair CV comparison).
+run_dir: /iridisfs/ddnb/Luke/scFMs/cxp_state/experiments/cxp/CollecTRI/run_cxp_v2_collectri
+eval_dir_suffix: "_seen5_train_cytokines"
+test_h5ad: /iridisfs/ddnb/Luke/cellxpathway/outputs/v2/v2_collectri/h5ad/x_cxp_train1.h5ad
+cellxpathway_root: /iridisfs/ddnb/Luke/cellxpathway
+encode_config: configs/v2/encode_v2_collectri.yaml
+decoder_weight_npy: outputs/v2/v2_collectri/z_cache/decoder_weight.npy
+embed_key: X_cxp
+pert_col: cytokine
+cell_type_key: cell_type
+control_pert: PBS
+barcode_obs_key: pert_cell_barcode
+seed: 42
+max_umap_cells: 80000
+decode_batch_cells: 8192

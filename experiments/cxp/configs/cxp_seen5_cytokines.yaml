@@ -1,0 +1,33 @@
+# Five cytokines present in CxP train1 (not in test1 holdout) and in CV 2026_03.
+# Excludes few-shot val cytokines (IFN-beta, IL-1-beta, IL-4, IL-12, IL-23).
+# Split is defined in tomls/cxp_nested_v2_collectri_seen5.toml (fewshot test perts on train1).
+train_h5ad: /iridisfs/ddnb/Luke/cellxpathway/outputs/v2/v2_collectri/h5ad/x_cxp_train1.h5ad
+control_pert: PBS
+pert_col: cytokine
+cell_type_key: cell_type
+cytokines:
+  - GM-CSF
+  - IL-2
+  - IL-10
+  - G-CSF
+  - IL-7
+# Same cell types as nested zeroshot test split (cxp_nested_v2_collectri.toml).
+cell_types:
+  - B Intermediate_Memory
+  - B Naive
+  - CD14 Mono
+  - CD16 Mono
+  - CD4 Memory
+  - CD4 Naive
+  - CD8 Memory
+  - CD8 Naive
+  - HSPC
+  - ILC
+  - MAIT
+  - NK
+  - NK CD56bright
+  - NKT
+  - Plasmablast
+  - Treg
+  - cDC
+  - pDC
