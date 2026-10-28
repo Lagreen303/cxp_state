@@ -1,0 +1,26 @@
+[datasets]
+train2_cxp = "/iridisfs/ddnb/Luke/cellxpathway/outputs/v2/v2_collectri/h5ad_allcyto_donor/x_cxp_allcyto_train2.h5ad"
+test2_cxp = "/iridisfs/ddnb/Luke/cellxpathway/outputs/v2/v2_collectri/h5ad_allcyto_donor/x_cxp_allcyto_test2.h5ad"
+
+[training]
+train2_cxp = "train"
+
+[zeroshot]
+"test2_cxp.B Intermediate_Memory" = "val"
+"test2_cxp.B Naive" = "val"
+"test2_cxp.CD14 Mono" = "val"
+"test2_cxp.CD16 Mono" = "val"
+"test2_cxp.CD4 Memory" = "val"
+"test2_cxp.CD4 Naive" = "val"
+"test2_cxp.CD8 Memory" = "val"
+"test2_cxp.CD8 Naive" = "val"
+"test2_cxp.HSPC" = "val"
+"test2_cxp.ILC" = "val"
+"test2_cxp.MAIT" = "val"
+"test2_cxp.NK" = "val"
+"test2_cxp.NK CD56bright" = "val"
+"test2_cxp.NKT" = "val"
+"test2_cxp.Plasmablast" = "val"
+"test2_cxp.Treg" = "val"
+"test2_cxp.cDC" = "val"
+"test2_cxp.pDC" = "val"

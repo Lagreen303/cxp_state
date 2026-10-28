@@ -1,0 +1,27 @@
+# All cytokines; train2/test2 donors (vae_train2_test2_v1). Val = held-out donor cells per cell type.
+[datasets]
+train2_xstate = "/iridisfs/ddnb/Luke/scFMs/state/experiments/cxp/h5ad/X_state/h5ad_allcyto_donor/x_state_allcyto_train2.h5ad"
+test2_xstate = "/iridisfs/ddnb/Luke/scFMs/state/experiments/cxp/h5ad/X_state/h5ad_allcyto_donor/x_state_allcyto_test2.h5ad"
+
+[training]
+train2_xstate = "train"
+
+[zeroshot]
+"test2_xstate.B Intermediate_Memory" = "val"
+"test2_xstate.B Naive" = "val"
+"test2_xstate.CD14 Mono" = "val"
+"test2_xstate.CD16 Mono" = "val"
+"test2_xstate.CD4 Memory" = "val"
+"test2_xstate.CD4 Naive" = "val"
+"test2_xstate.CD8 Memory" = "val"
+"test2_xstate.CD8 Naive" = "val"
+"test2_xstate.HSPC" = "val"
+"test2_xstate.ILC" = "val"
+"test2_xstate.MAIT" = "val"
+"test2_xstate.NK" = "val"
+"test2_xstate.NK CD56bright" = "val"
+"test2_xstate.NKT" = "val"
+"test2_xstate.Plasmablast" = "val"
+"test2_xstate.Treg" = "val"
+"test2_xstate.cDC" = "val"
+"test2_xstate.pDC" = "val"

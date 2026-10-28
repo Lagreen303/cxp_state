@@ -1,0 +1,77 @@
+[datasets]
+train1_cxp = "/iridisfs/ddnb/Luke/cellxpathway/outputs/v2/v2_collectri/h5ad/x_cxp_train1.h5ad"
+
+[training]
+train1_cxp = "train"
+
+[fewshot."train1_cxp.B Intermediate_Memory"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.B Naive"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.CD14 Mono"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.CD16 Mono"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.CD4 Memory"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.CD4 Naive"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.CD8 Memory"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.CD8 Naive"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.HSPC"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.ILC"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.MAIT"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.NK"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.NK CD56bright"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.NKT"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.Plasmablast"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.Treg"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.cDC"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
+
+[fewshot."train1_cxp.pDC"]
+val = [ "IFN-beta", "IL-1-beta", "IL-4", "IL-12", "IL-23",]
+test = [ "GM-CSF", "IL-2", "IL-10", "G-CSF", "IL-7",]
