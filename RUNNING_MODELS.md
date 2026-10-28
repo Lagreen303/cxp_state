@@ -1,6 +1,6 @@
 # Running STATE Models with YAML/TOML Configuration
 
-For SLURM wrapper scripts at the repo root (`run_train_state.sh`, Apptainer helpers, etc.), see **[docs/HPC_SLURM_WRAPPERS.md](docs/HPC_SLURM_WRAPPERS.md)**.
+For SLURM wrapper scripts under `scripts/hpc/` (`run_train_state.sh`, Apptainer helpers, etc.), see **[docs/HPC_SLURM_WRAPPERS.md](docs/HPC_SLURM_WRAPPERS.md)**.
 
 This guide explains how to run STATE models using the YAML and TOML configuration format. The typical workflow consists of four main steps: preprocessing training data, preprocessing inference templates, training the model, and running in-silico perturbation predictions.
 
@@ -225,16 +225,16 @@ Train the STATE model using your configuration files.
 
 **Option A: Using the config script directly**
 ```bash
-sbatch 01_run_train_state_config.sh config.yaml
+sbatch scripts/hpc/01_run_train_state_config.sh config.yaml
 # or
-bash 01_run_train_state_config.sh config.yaml
+bash scripts/hpc/01_run_train_state_config.sh config.yaml
 ```
 
 **Option B: Using the master training script**
 ```bash
-sbatch run_train_state.sh config.yaml
+sbatch scripts/hpc/run_train_state.sh config.yaml
 # or
-bash run_train_state.sh config.yaml
+bash scripts/hpc/run_train_state.sh config.yaml
 ```
 
 The training script will:
@@ -255,9 +255,9 @@ Generate perturbation predictions using your trained model.
 **Script:** `run_insilicoperturbation_state.sh`
 
 ```bash
-sbatch run_insilicoperturbation_state.sh config.yaml
+sbatch scripts/hpc/run_insilicoperturbation_state.sh config.yaml
 # or
-bash run_insilicoperturbation_state.sh config.yaml
+bash scripts/hpc/run_insilicoperturbation_state.sh config.yaml
 ```
 
 This script:
@@ -342,12 +342,12 @@ inference:
 
 ### 5. Train Model
 ```bash
-sbatch run_train_state.sh cytokine_perturbation/config.yaml
+sbatch scripts/hpc/run_train_state.sh cytokine_perturbation/config.yaml
 ```
 
 ### 6. Run Inference
 ```bash
-sbatch run_insilicoperturbation_state.sh cytokine_perturbation/config.yaml
+sbatch scripts/hpc/run_insilicoperturbation_state.sh cytokine_perturbation/config.yaml
 ```
 
 ## Reference Examples

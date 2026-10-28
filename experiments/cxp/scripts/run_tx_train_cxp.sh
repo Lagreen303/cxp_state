@@ -26,4 +26,4 @@ if [[ ! -f "${CONFIG}" ]]; then
   exit 1
 fi
 mkdir -p experiments/cxp/logs
-bash run_train_state.sh "$CONFIG"
+bash scripts/hpc/run_train_state.sh "$CONFIG"

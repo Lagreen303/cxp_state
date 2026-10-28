@@ -28,40 +28,19 @@
 set -e
 set -o pipefail
 
-# -------------------------------------------------------------------
-# Locate script directory (works under SLURM and direct bash)
-# -------------------------------------------------------------------
-if [ -n "${SLURM_SUBMIT_DIR:-}" ]; then
-    SCRIPT_DIR="$SLURM_SUBMIT_DIR"
-elif [ -n "${BASH_SOURCE[0]}" ]; then
-    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-else
-    SCRIPT_DIR="$(pwd)"
-fi
-
-cd "$SCRIPT_DIR"
-
-# -------------------------------------------------------------------
-# UV environment setup (your existing script)
-# -------------------------------------------------------------------
-if [ -f "$SCRIPT_DIR/setup_uv_env.sh" ]; then
-    source "$SCRIPT_DIR/setup_uv_env.sh"
-else
-    export UV_CACHE_DIR="${UV_CACHE_DIR:-$SCRIPT_DIR/uv/cache}"
-    export UV_PYTHON_INSTALL_DIR="${UV_PYTHON_INSTALL_DIR:-$SCRIPT_DIR/uv/pythons}"
-    export UV_TOOL_DIR="${UV_TOOL_DIR:-$SCRIPT_DIR/uv/tools}"
-    mkdir -p "$UV_CACHE_DIR" "$UV_PYTHON_INSTALL_DIR" "$UV_TOOL_DIR" 2>/dev/null || true
-fi
+HPC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=_state_repo_env.sh
+source "${HPC_DIR}/_state_repo_env.sh"
 
 # -------------------------------------------------------------------
 # Config file resolution
 # -------------------------------------------------------------------
 CONFIG_FILE="${1:-config.yaml}"
 
-if [ ! -f "$CONFIG_FILE" ] && [ -f "$SCRIPT_DIR/$CONFIG_FILE" ]; then
-    CONFIG_FILE="$SCRIPT_DIR/$CONFIG_FILE"
+if [ ! -f "$CONFIG_FILE" ] && [ -f "${STATE_REPO_ROOT}/$CONFIG_FILE" ]; then
+    CONFIG_FILE="${STATE_REPO_ROOT}/$CONFIG_FILE"
 elif [ "${CONFIG_FILE#/}" = "$CONFIG_FILE" ]; then
-    CONFIG_FILE="$SCRIPT_DIR/$CONFIG_FILE"
+    CONFIG_FILE="${STATE_REPO_ROOT}/$CONFIG_FILE"
 fi
 
 # -------------------------------------------------------------------
@@ -87,7 +66,7 @@ if [ ! -f "$CONFIG_FILE" ]; then
 fi
 
 log_info "Starting IN-SILICO PERTURBATION (DIR MODE) with config: $CONFIG_FILE"
-log_info "Script directory: $SCRIPT_DIR"
+log_info "Repo root: ${STATE_REPO_ROOT}"
 log_info "Current working directory: $(pwd)"
 
 # -------------------------------------------------------------------

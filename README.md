@@ -12,7 +12,7 @@ This repository is a **personal fork** of the Arc Institute [**state**](https://
 
 | Area | Location | Purpose |
 |------|-----------|---------|
-| **HPC / Slurm wrappers** | `scripts/hpc/` (thin forwards at repo root) | Submit or debug training, inference, preprocessing, and Apptainer-backed Python on Iridis-style partitions. |
+| **HPC / Slurm wrappers** | **`scripts/hpc/`** only (`setup_uv_env.sh` stays at repo root) | Submit or debug training, inference, preprocessing, and Apptainer-backed Python on Iridis-style partitions. |
 | **Environment** | `setup_uv_env.sh` | Project-local `uv` cache and `.venv` paths (override with env vars if your site uses scratch). |
 | **YAML + TOML workflow** | `RUNNING_MODELS.md`, optional `config.yaml` (local) | Describes how YAML maps to `state tx train` / infer / ISP for this fork’s drivers. |
 | **Wrapper index** | `docs/HPC_SLURM_WRAPPERS.md` | One-page map of each shell script and how to repoint `git` remotes (`upstream` = Arc, `origin` = your GitHub). |
@@ -83,7 +83,7 @@ The root Slurm drivers are **not** Hydra configs by themselves: each script expe
 
 **Passing the file**
 
-- Most scripts accept an optional path: `sbatch run_train_state.sh path/to/config.yaml`. If omitted, they default to **`config.yaml` in the repo root** (when run from the submit directory, Slurm sets `SLURM_SUBMIT_DIR` so paths resolve next to the wrapper).
+- Most scripts accept an optional path: `sbatch scripts/hpc/run_train_state.sh path/to/config.yaml`. If omitted, they default to **`config.yaml` in the repo root** (resolved via `_state_repo_env.sh`, not the Slurm submit directory).
 - Use **absolute paths inside YAML** when jobs start from another working directory, or keep everything relative to the directory you `sbatch` from.
 
 **Which YAML section each wrapper reads**
@@ -111,17 +111,17 @@ Preprocess helpers **`00_preprocess_train.sh`** and **`02a_preprocess_infer.sh`*
 ### Training
 
 - **`run_train_state.sh`** — Primary training driver: sources `setup_uv_env.sh`, loads the given YAML, uses embedded Python to assemble a full **`uv run state tx train`** command (data kwargs, training schedule, `model=...`, optional **`init_from`**, wandb toggles/tags). Optional: `SKIP_STEPS=01` to skip the training step. Heavier and more flexible than `01_...`.
-- **`01_run_train_state_config.sh`** — Shorter Slurm job that parses the same `training` YAML and runs `uv run state tx train` with a smaller fixed set of overrides (good when you do not need `init_from` or extra wandb handling). Usage: `sbatch 01_run_train_state_config.sh [config.yaml]`.
+- **`scripts/hpc/01_run_train_state_config.sh`** — Shorter Slurm job that parses the same `training` YAML and runs `uv run state tx train` with a smaller fixed set of overrides (good when you do not need `init_from` or extra wandb handling). Usage: `sbatch scripts/hpc/01_run_train_state_config.sh [config.yaml]`.
 
 ### Inference / in-silico perturbation
 
-- **`run_insilicoperturbation_state.sh`** — Reads **`inference`** from YAML and runs **`state tx infer`** with resolved checkpoint path. Usage: `sbatch run_insilicoperturbation_state.sh [config.yaml]`; optional `SKIP_STEPS=02`.
-- **`02_run_inference_state_config.sh`** — Same overall job (YAML → `state tx infer`) with a separate embedded parser; use whichever you prefer to maintain. Usage: `sbatch 02_run_inference_state_config.sh [config.yaml]`.
+- **`scripts/hpc/run_insilicoperturbation_state.sh`** — Reads **`inference`** from YAML and runs **`state tx infer`** with resolved checkpoint path. Usage: `sbatch scripts/hpc/run_insilicoperturbation_state.sh [config.yaml]`; optional `SKIP_STEPS=02`.
+- **`scripts/hpc/02_run_inference_state_config.sh`** — Same overall job (YAML → `state tx infer`) with a separate embedded parser; use whichever you prefer to maintain. Usage: `sbatch scripts/hpc/02_run_inference_state_config.sh [config.yaml]`.
 - **`run_predict_state.sh`** — **Template only**: a single hardcoded `uv run state tx predict ...` with fixed `--output-dir` and `--checkpoint`. Duplicate the file or edit in place for your run directory and checkpoint name.
 
 ### cell-eval style metrics (after you have prediction + real h5ads)
 
-- **`run_cell_eval.sh`** — Submits a job that **does not train**; it evaluates predictions like STATE’s internal `tx predict` checks using **cell-eval–backed Python** in this repo. **Usage:** `sbatch run_cell_eval.sh /path/to/config_infer_….yaml` (exactly **one** argument). The script naïvely parses the YAML with `awk`: it needs **`inference`** fields **`output:`** (path to **predicted** `.h5ad`, quoted), **`real:`** (path to **real / observed** `.h5ad`, quoted), **`pert_col`**, and **`control_pert`**. It derives a sibling folder under the run directory, e.g. `results_eval_<prediction_basename>_genes_all`, and runs  
+- **`scripts/hpc/run_cell_eval.sh`** — Submits a job that **does not train**; it evaluates predictions like STATE’s internal `tx predict` checks using **cell-eval–backed Python** in this repo. **Usage:** `sbatch scripts/hpc/run_cell_eval.sh /path/to/config_infer_….yaml` (exactly **one** argument). The script naïvely parses the YAML with `awk`: it needs **`inference`** fields **`output:`** (path to **predicted** `.h5ad`, quoted), **`real:`** (path to **real / observed** `.h5ad`, quoted), **`pert_col`**, and **`control_pert`**. It derives a sibling folder under the run directory, e.g. `results_eval_<prediction_basename>_genes_all`, and runs  
   `uv run … python analyse_results/state_predict_like_metrics.py` with `--profile full` and `cell_type` as the cell-type column. **Prepare your inference YAML** so those keys match the files produced by `state tx infer` / `predict`.
 
 - **`run_cell_eval_imputed.sh`** — Same CLI contract (`CONFIG_YAML` as sole argument); calls `state_predict_like_metrics_no_imputed.py` so metrics exclude imputed genes (`--imputed-flag`, defaulting to `is_imputed`).
@@ -130,7 +130,7 @@ Preprocess helpers **`00_preprocess_train.sh`** and **`02a_preprocess_infer.sh`*
 
 ### Apptainer-backed Python (not `config.yaml`-driven)
 
-These run **`python3 "$@"`** inside a **site-specific** Apptainer image and bind mounts (`run_python3.sh` is GPU-oriented; `run_python3_cpu.sh` omits GPU in the header; `run_python3_scavenger.sh` targets scavenger partitions). They do **not** read your STATE YAML; use them for arbitrary Python in the same filesystem environment as your other jobs. Example: `sbatch run_python3.sh your_script.py --flags`.
+These run **`python3 "$@"`** inside a **site-specific** Apptainer image and bind mounts (`run_python3.sh` is GPU-oriented; `run_python3_cpu.sh` omits GPU in the header; `run_python3_scavenger.sh` targets scavenger partitions). They do **not** read your STATE YAML; use them for arbitrary Python in the same filesystem environment as your other jobs. Example: `sbatch scripts/hpc/run_python3.sh your_script.py --flags`.
 
 ---
 

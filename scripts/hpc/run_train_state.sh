@@ -10,9 +10,8 @@
 
 # Master STATE TRAINING script (STATE train)
 # Usage:
-#   sbatch run_train_state.sh [config.yaml]
-#   or
-#   bash   run_train_state.sh [config.yaml]
+#   sbatch scripts/hpc/run_train_state.sh [config.yaml]
+#   bash   scripts/hpc/run_train_state.sh [config.yaml]
 
 set -e
 set -o pipefail
@@ -27,32 +26,29 @@ else
     SCRIPT_DIR="$(pwd)"
 fi
 
-cd "$SCRIPT_DIR"
+# shellcheck source=_state_repo_env.sh
+source "${SCRIPT_DIR}/_state_repo_env.sh"
 
 # -------------------------------------------------------------------
-# UV environment setup (your existing script)
+# UV environment setup (via setup_uv_env.sh at repo root)
 # -------------------------------------------------------------------
-if [ -f "$SCRIPT_DIR/setup_uv_env.sh" ]; then
-    source "$SCRIPT_DIR/setup_uv_env.sh"
-else
-    # Minimal fallback (usually overridden by your real setup_uv_env.sh)
-    export UV_CACHE_DIR="${UV_CACHE_DIR:-$SCRIPT_DIR/uv/cache}"
-    export UV_PYTHON_INSTALL_DIR="${UV_PYTHON_INSTALL_DIR:-$SCRIPT_DIR/uv/pythons}"
-    export UV_TOOL_DIR="${UV_TOOL_DIR:-$SCRIPT_DIR/uv/tools}"
+if [ ! -f "${STATE_REPO_ROOT}/setup_uv_env.sh" ]; then
+    export UV_CACHE_DIR="${UV_CACHE_DIR:-${STATE_REPO_ROOT}/uv/cache}"
+    export UV_PYTHON_INSTALL_DIR="${UV_PYTHON_INSTALL_DIR:-${STATE_REPO_ROOT}/uv/pythons}"
+    export UV_TOOL_DIR="${UV_TOOL_DIR:-${STATE_REPO_ROOT}/uv/tools}"
     mkdir -p "$UV_CACHE_DIR" "$UV_PYTHON_INSTALL_DIR" "$UV_TOOL_DIR" 2>/dev/null || true
 fi
-export UV_OFFLINE="${UV_OFFLINE:-1}"
 
 # -------------------------------------------------------------------
 # Config file resolution
 # -------------------------------------------------------------------
 CONFIG_FILE="${1:-config.yaml}"
 
-# If config is relative, make it relative to SCRIPT_DIR
-if [ ! -f "$CONFIG_FILE" ] && [ -f "$SCRIPT_DIR/$CONFIG_FILE" ]; then
-    CONFIG_FILE="$SCRIPT_DIR/$CONFIG_FILE"
+# If config is relative, resolve from repo root
+if [ ! -f "$CONFIG_FILE" ] && [ -f "${STATE_REPO_ROOT}/$CONFIG_FILE" ]; then
+    CONFIG_FILE="${STATE_REPO_ROOT}/$CONFIG_FILE"
 elif [ "${CONFIG_FILE#/}" = "$CONFIG_FILE" ]; then
-    CONFIG_FILE="$SCRIPT_DIR/$CONFIG_FILE"
+    CONFIG_FILE="${STATE_REPO_ROOT}/$CONFIG_FILE"
 fi
 
 # -------------------------------------------------------------------
@@ -78,7 +74,7 @@ if [ ! -f "$CONFIG_FILE" ]; then
 fi
 
 log_info "Starting STATE TRAINING with config: $CONFIG_FILE"
-log_info "Script directory: $SCRIPT_DIR"
+log_info "Repo root: ${STATE_REPO_ROOT}"
 log_info "Current working directory: $(pwd)"
 
 # Optional skip mechanism

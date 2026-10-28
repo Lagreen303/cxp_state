@@ -11,7 +11,7 @@
 # Run STATE **embedding** inference: `state emb transform` from a small YAML file.
 #
 # Usage:
-#   sbatch run_emb_transform.sh [path/to/emb_transform.yaml]
+#   sbatch scripts/hpc/run_emb_transform.sh [path/to/emb_transform.yaml]
 #   bash   run_emb_transform.sh [path/to/emb_transform.yaml]
 #
 # Default config file: emb_transform.yaml next to this script (repo root).
@@ -36,31 +36,15 @@
 set -e
 set -o pipefail
 
-if [ -n "${SLURM_SUBMIT_DIR:-}" ]; then
-    SCRIPT_DIR="$SLURM_SUBMIT_DIR"
-elif [ -n "${BASH_SOURCE[0]:-}" ]; then
-    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-else
-    SCRIPT_DIR="$(pwd)"
-fi
-
-cd "$SCRIPT_DIR"
-
-if [ -f "$SCRIPT_DIR/setup_uv_env.sh" ]; then
-    # shellcheck source=/dev/null
-    source "$SCRIPT_DIR/setup_uv_env.sh"
-else
-    export UV_CACHE_DIR="${UV_CACHE_DIR:-$SCRIPT_DIR/uv/cache}"
-    export UV_PYTHON_INSTALL_DIR="${UV_PYTHON_INSTALL_DIR:-$SCRIPT_DIR/uv/pythons}"
-    export UV_TOOL_DIR="${UV_TOOL_DIR:-$SCRIPT_DIR/uv/tools}"
-    mkdir -p "$UV_CACHE_DIR" "$UV_PYTHON_INSTALL_DIR" "$UV_TOOL_DIR" 2>/dev/null || true
-fi
+HPC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=_state_repo_env.sh
+source "${HPC_DIR}/_state_repo_env.sh"
 
 CONFIG_FILE="${1:-emb_transform.yaml}"
-if [ ! -f "$CONFIG_FILE" ] && [ -f "$SCRIPT_DIR/$CONFIG_FILE" ]; then
-    CONFIG_FILE="$SCRIPT_DIR/$CONFIG_FILE"
+if [ ! -f "$CONFIG_FILE" ] && [ -f "${STATE_REPO_ROOT}/$CONFIG_FILE" ]; then
+    CONFIG_FILE="${STATE_REPO_ROOT}/$CONFIG_FILE"
 elif [ "${CONFIG_FILE#/}" = "$CONFIG_FILE" ]; then
-    CONFIG_FILE="$SCRIPT_DIR/$CONFIG_FILE"
+    CONFIG_FILE="${STATE_REPO_ROOT}/$CONFIG_FILE"
 fi
 
 if [ ! -f "$CONFIG_FILE" ]; then

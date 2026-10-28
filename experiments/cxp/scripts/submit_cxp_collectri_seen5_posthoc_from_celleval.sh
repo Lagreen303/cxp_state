@@ -34,13 +34,13 @@ echo "[INFO] CollecTRI checkpoint step: ${CHECKPOINT_STEP}"
 
 J_EVAL="$(sbatch --partition="${PARTITION}" --mem="${POSTHOC_MEM}" \
   --export=ALL,CHECKPOINT_STEP="${CHECKPOINT_STEP}",STATE_ROOT="${STATE_ROOT}",CONFIG="${CONFIG}" \
-  "${CXP_EXP}/run_cxp_collectri_posthoc_celleval.sh" | awk '{print $NF}')"
+  "${CXP_EXP}/scripts/run_cxp_collectri_posthoc_celleval.sh" | awk '{print $NF}')"
 echo "pathway cell-eval: ${J_EVAL}"
 
 J_PLOTS="$(sbatch --partition="${PARTITION}" \
   --dependency=afterok:"${J_EVAL}" \
   --export=ALL,CHECKPOINT_STEP="${CHECKPOINT_STEP}",STATE_ROOT="${STATE_ROOT}",CONFIG="${CONFIG}" \
-  "${CXP_EXP}/run_cxp_collectri_posthoc_plots.sh" | awk '{print $NF}')"
+  "${CXP_EXP}/scripts/run_cxp_collectri_posthoc_plots.sh" | awk '{print $NF}')"
 echo "aggregate + heatmaps: ${J_PLOTS}"
 
 EVAL_DIR="${RUN_DIR}/eval_step=${CHECKPOINT_STEP}.ckpt${RESULTS_SUFFIX}"
@@ -50,7 +50,7 @@ OUT_FIG="${CXP_EXP}/figures/tmp/seen5_train_cytokines"
 J_CMP="$(sbatch --partition="${PARTITION}" \
   --dependency=afterok:"${J_PLOTS}" \
   --export=ALL,STATE_ROOT="${STATE_ROOT}",CHECKPOINT_STEP="${CHECKPOINT_STEP}",CXP_LONG="${CXP_LONG}",OUT_FIG="${OUT_FIG}" \
-  "${CXP_EXP}/run_cxp_vs_cv_seen5_compare.sh" | awk '{print $NF}')"
+  "${CXP_EXP}/scripts/run_cxp_vs_cv_seen5_compare.sh" | awk '{print $NF}')"
 echo "CxP vs CV comparison plots: ${J_CMP}"
 
 echo ""
